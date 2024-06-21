@@ -1,0 +1,67 @@
+from gpiozero import OutputDevice, PWMOutputDevice
+import zmq
+
+# Setup GPIO
+power_pin_forward = OutputDevice(17, initial_value=False)  # Direction pin 1 fo>
+power_pin_reverse = OutputDevice(27, initial_value=False)  # Direction pin 2 fo>
+pwm_power = PWMOutputDevice(18, frequency=1000, initial_value=0)  # PWM pin for>
+pwm_steering = PWMOutputDevice(12)  # PWM pin for steering control
+
+# Define function to set steering PWM correctly
+def set_steering_pwm(value):
+    """Set steering PWM value within the range of 0.0 to 1.0."""
+    try:
+        value = float(value)
+        if 0.0 <= value <= 1.0:            
+            pwm_steering.value = value
+            print(f"Steering PWM value set to: {value:.2f}")
+        else:
+            print("Steering value out of range. Please enter a number between 0>")
+    except ValueError:
+        print("Please enter a valid floating-point number for steering.")
+
+# Setup ZeroMQ
+context = zmq.Context()
+socket = context.socket(zmq.SUB)  # Create a subscriber socket
+socket.connect("tcp://10.0.0.157:5555")  # Use the server's IP address
+socket.setsockopt_string(zmq.SUBSCRIBE, '')  # Subscribe to all messages
+
+try:
+    while True:
+        message = socket.recv_string()
+        command, val = message.split(",")
+
+        print("Received message:", message)        
+        if command == "power":
+            val = float(val)
+            if val > 0:
+                # Reverse
+                power_pin_forward.off()
+                power_pin_reverse.on()
+                pwm_power.value = abs(val) / 100
+            elif val < 0:
+                # Forward
+                power_pin_forward.on()
+                power_pin_reverse.off()
+                pwm_power.value = abs(val) / 100
+            else:
+                # Stop
+                power_pin_forward.off()
+                power_pin_reverse.off()
+                pwm_power.value = 0
+        elif command == "steering":
+            set_steering_pwm(val)
+
+except KeyboardInterrupt:
+    print("Stopping motor and cleaning up GPIO")
+    pwm_power.close()
+    pwm_steering.close()
+    power_pin_forward.close()
+    power_pin_reverse.close()
+
+except Exception as e:
+    print("An error occurred:", str(e))
+    pwm_power.close()
+    pwm_steering.close()
+    power_pin_forward.close()
+    power_pin_reverse.close()
