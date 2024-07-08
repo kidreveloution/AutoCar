@@ -21,14 +21,21 @@ def set_steering_pwm(value):
         print("Please enter a valid floating-point number for steering.")
 
 # Setup ZeroMQ
+SERVER_IP = '3.22.90.156'
+WORKER_ID = "car_1"
+
 context = zmq.Context()
-socket = context.socket(zmq.SUB)  # Create a subscriber socket
-socket.connect("tcp://10.0.0.157:5555")  # Use the server's IP address
-socket.setsockopt_string(zmq.SUBSCRIBE, '')  # Subscribe to all messages
+dealer = context.socket(zmq.DEALER)
+dealer.connect("tcp://"+SERVER_IP+":5555")  # Use the server's IP address
+#socket = context.socket(zmq.SUB)  # Create a subscriber socket
+#socket.setsockopt_string(zmq.SUBSCRIBE, '')  # Subscribe to all messages
+
+# Register the client with the server by sending an initial message
+dealer.send_multipart([WORKER_ID.encode('utf-8'), b""])
 
 try:
     while True:
-        message = socket.recv_string()
+        message = dealer.recv_multipart()
         command, val = message.split(",")
 
         print("Received message:", message)        
