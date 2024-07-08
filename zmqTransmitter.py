@@ -20,8 +20,14 @@ print(f"Initialized Joystick: {joystick.get_name()}")
 print("Press joystick buttons or move axes. Press any button to exit.")
 
 context = zmq.Context()
-socket = context.socket(zmq.PUB)  # Create a publisher socket
-socket.bind("tcp://*:5555")  # Bind on all interfaces on port 5555
+dealer = context.socket(zmq.DEALER)
+dealer.connect("tcp://3.22.90.156:5555")
+CLIENT_ID = "pc_1"
+dealer.send_multipart([CLIENT_ID.encode('utf-8'), b""])
+
+target_worker_id = "car_1"
+message = f"Hello from  {CLIENT_ID},bitch".encode('utf-8')
+dealer.send_multipart([target_worker_id.encode('utf-8'), message])
 
 while True:
 
@@ -32,7 +38,11 @@ while True:
             if axis == 3:
                 value = 0.05 * (value + 1) + 0.1
                 value = format(float(value), ".2f")
-                socket.send_string("steering,"+str(value))
+                message = "steering,"+str(value)
+                #dealer.send_string("steering,"+str(value))
+                
+                dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
+
                 print(f"Axis {event.axis} moved to {value}")
             if axis == 1:
                 value = (value * 100)
@@ -43,8 +53,9 @@ while True:
                     value = format(float(value), ".2f")
                 
                 message = "power,"+str(value)
+                dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
 
-                socket.send_string("power,"+str(value))
+                #dealer.send_string("power,"+str(value))
 
 
 
