@@ -1,5 +1,6 @@
 from gpiozero import OutputDevice, PWMOutputDevice
 import zmq
+import requests
 
 # Setup GPIO
 power_pin_forward = OutputDevice(17, initial_value=False)  # Direction pin 1 fo>
@@ -20,9 +21,15 @@ def set_steering_pwm(value):
     except ValueError:
         print("Please enter a valid floating-point number for steering.")
 
+
+def get_public_ip():
+    response = requests.get('https://api.ipify.org')
+    return response.text
+
 # Setup ZeroMQ
 SERVER_IP = '3.22.90.156'
 WORKER_ID = "car_1"
+PUBLIC_IP = get_public_ip()
 
 context = zmq.Context()
 dealer = context.socket(zmq.DEALER)
@@ -31,7 +38,7 @@ dealer.connect("tcp://"+SERVER_IP+":5555")  # Use the server's IP address
 #socket.setsockopt_string(zmq.SUBSCRIBE, '')  # Subscribe to all messages
 
 # Register the client with the server by sending an initial message
-dealer.send_multipart([WORKER_ID.encode('utf-8'), b""])
+dealer.send_multipart([WORKER_ID.encode('utf-8'), PUBLIC_IP.encode('utf-8')])
 
 try:
     while True:
