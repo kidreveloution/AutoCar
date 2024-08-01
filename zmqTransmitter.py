@@ -53,6 +53,8 @@ while True:
                     value = format(float(value), ".2f")
                 
                 message = "power,"+str(value)
+                print(f"Axis {event.axis} moved to {value}")
+
                 dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
 
                 #dealer.send_string("power,"+str(value))
