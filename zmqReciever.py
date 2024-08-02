@@ -49,6 +49,7 @@ try:
         command = message['msg_name']
         val = message['content']
 
+        print(command,val)
         if command == "power":
             val = float(val)
             if val > 0:
