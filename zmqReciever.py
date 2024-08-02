@@ -45,8 +45,9 @@ try:
         else:
             message = message.decode('utf-8')
         print(message)
+        command = message.msg_name
+        print("COMMAND ON ",command)
         command, val = message.split(",")
-
         print("Received message:", message)        
         if command == "power":
             val = float(val)
