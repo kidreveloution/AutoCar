@@ -47,7 +47,7 @@ try:
         print(message)
         message = json.loads(message)
         print(message)
-        command = message.msg_name
+        command = message['msg_name']
         print("COMMAND ON ",command)
         command, val = message.split(",")
         print("Received message:", message)        
