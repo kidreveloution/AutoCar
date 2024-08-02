@@ -44,13 +44,11 @@ try:
             message = message[0].decode('utf-8')
         else:
             message = message.decode('utf-8')
-        print(message)
+    
         message = json.loads(message)
-        print(message)
         command = message['msg_name']
-        print("COMMAND ON ",command)
-        command, val = message.split(",")
-        print("Received message:", message)        
+        val = message['content']
+
         if command == "power":
             val = float(val)
             if val > 0:
