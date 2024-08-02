@@ -44,7 +44,7 @@ try:
             message = message[0].decode('utf-8')
         else:
             message = message.decode('utf-8')
-        
+        print(message)
         command, val = message.split(",")
 
         print("Received message:", message)        

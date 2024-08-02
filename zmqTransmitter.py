@@ -2,6 +2,7 @@ import zmq
 import time
 import pygame
 import sys
+import messageBuilder
 
 # Initialize Pygame and joystick
 pygame.init()
@@ -29,8 +30,9 @@ target_worker_id = "car_1"
 message = f"Hello from  {CLIENT_ID},bitch".encode('utf-8')
 dealer.send_multipart([target_worker_id.encode('utf-8'), message])
 
-while True:
 
+
+while True:
     for event in pygame.event.get():
         if event.type == pygame.JOYAXISMOTION:
             axis = event.axis
@@ -38,10 +40,15 @@ while True:
             if axis == 3:
                 value = 0.05 * (value + 1) + 0.1
                 value = format(float(value), ".2f")
-                message = "steering,"+str(value)
-                #dealer.send_string("steering,"+str(value))
-                
-                dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
+                #message = "steering,"+str(value)
+                message = messageBuilder.MESSAGE_CLASS(
+                    address=CLIENT_ID,
+                    msg_name="steering",
+                    dest=target_worker_id,
+                    content=value
+                )
+                #dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
+                dealer.send_multipart([message.dest.encode('utf-8'), message.encode('utf-8')])
 
                 print(f"Axis {event.axis} moved to {value}")
             if axis == 1:
@@ -52,10 +59,18 @@ while True:
                 else:
                     value = format(float(value), ".2f")
                 
-                message = "power,"+str(value)
+                #message = "power,"+str(value)
                 print(f"Axis {event.axis} moved to {value}")
 
-                dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
+                message = messageBuilder.MESSAGE_CLASS(
+                    address=CLIENT_ID,
+                    msg_name="power",
+                    dest=target_worker_id,
+                    content=value
+                )
+                dealer.send_multipart([message.dest.encode('utf-8'), message.encode('utf-8')])
+
+                #dealer.send_multipart([target_worker_id.encode('utf-8'), message.encode('utf-8')])
 
                 #dealer.send_string("power,"+str(value))
 
