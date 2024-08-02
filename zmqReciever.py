@@ -35,7 +35,7 @@ context = zmq.Context()
 dealer = context.socket(zmq.DEALER)
 dealer.connect("tcp://"+SERVER_IP+":5555")  # Use the server's IP address
 
-dealer.send_multipart([WORKER_ID.encode('utf-8'),b''])
+dealer.send_multipart([PUBLIC_IP.encode('utf-8'),b''])
 
 try:
     while True:

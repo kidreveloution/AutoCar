@@ -14,7 +14,7 @@ def get_public_ip():
     return response.text
 
 address = get_public_ip()
-msg_name = "power"
+msg_name = "steering"
 dest = "car_1"
 content = 5
 
