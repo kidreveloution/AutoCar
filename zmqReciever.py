@@ -1,7 +1,7 @@
 from gpiozero import OutputDevice, PWMOutputDevice
 import zmq
 import requests
-
+import json
 # Setup GPIO
 power_pin_forward = OutputDevice(17, initial_value=False)  # Direction pin 1 fo>
 power_pin_reverse = OutputDevice(27, initial_value=False)  # Direction pin 2 fo>
@@ -45,6 +45,7 @@ try:
         else:
             message = message.decode('utf-8')
         print(message)
+        message = json.loads(message)
         command = message.msg_name
         print("COMMAND ON ",command)
         command, val = message.split(",")
