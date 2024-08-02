@@ -15,7 +15,7 @@ def get_public_ip():
 
 address = get_public_ip()
 msg_name = "steering"
-dest = "car_1"
+dest = "107.5.182.115"
 content = 5
 
 message = messageBuilder.MESSAGE_CLASS(

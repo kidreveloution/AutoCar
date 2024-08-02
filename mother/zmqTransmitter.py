@@ -2,7 +2,7 @@ import zmq
 import time
 import pygame
 import sys
-import messageBuilder
+import common.messageBuilder as messageBuilder
 
 # Initialize Pygame and joystick
 pygame.init()
