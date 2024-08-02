@@ -46,6 +46,7 @@ try:
             message = message.decode('utf-8')
         print(message)
         message = json.loads(message)
+        print(message)
         command = message.msg_name
         print("COMMAND ON ",command)
         command, val = message.split(",")
