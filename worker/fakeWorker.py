@@ -71,6 +71,7 @@ initial_message = MESSAGE_CLASS(
     content={"ip_address": PUBLIC_IP}
 ).buildMessage()
 
+
 dealer.send_multipart([PUBLIC_IP.encode('utf-8'), initial_message.encode('utf-8')])
 
 try:
