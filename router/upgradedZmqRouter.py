@@ -12,12 +12,12 @@ workers = {}
 while True:
     message = router.recv_multipart()
     print(f"Received raw message: {message}")
-    print(message[2][0])
     # Decode each part of the multipart message as UTF-8
-    worker_id = message[2].decode('utf-8')  # Decode as UTF-8 string
+    
+    #worker_id = message[2].decode('utf-8')  # Decode as UTF-8 string
     ip_address = message[1].decode('utf-8')  # Decode the IP address as UTF-8
     message_content = message[2].decode('utf-8')  # Decode the message content as UTF-8
-
+    worker_id = message_content["address"]
     print(f"Decoded worker_id: {worker_id}, IP: {ip_address}, Content: {message_content}")
 
     message_data = json.loads(message_content)
