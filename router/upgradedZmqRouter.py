@@ -11,6 +11,8 @@ workers = {}
 
 while True:
     message = router.recv_multipart()
+    print(message)
+
     if isinstance(message, list) and len(message) > 0 and isinstance(message[0], bytes):
         message = message[0].decode('utf-8')
     else:
