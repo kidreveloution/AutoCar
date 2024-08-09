@@ -11,8 +11,13 @@ workers = {}
 
 while True:
     message = router.recv_multipart()
+    if isinstance(message, list) and len(message) > 0 and isinstance(message[0], bytes):
+        message = message[0].decode('utf-8')
+    else:
+        message = message.decode('utf-8')
+
     print(message)
-    message = json.loads(str(message))
+    message = json.loads(message)
 
     if message["msg_name"] == "registeration":
         worker_id = message["address"]
