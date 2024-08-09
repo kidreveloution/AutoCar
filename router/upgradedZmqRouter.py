@@ -19,7 +19,7 @@ while True:
     message_content = message[2].decode('utf-8')  # Decode the message content as UTF-8
 
     message_data = json.loads(message_content)
-    worker_id = message_content["address"]
+    worker_id = message_data["address"]
     print(f"Decoded worker_id: {worker_id}, IP: {ip_address}, Content: {message_content}")
 
     if message_data.get("msg_name") == "registeration":
