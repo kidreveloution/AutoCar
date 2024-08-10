@@ -14,14 +14,13 @@ while True:
     print(f"Received raw message: {message}")
     # Decode each part of the multipart message as UTF-8
     
-    #tx_id = message[2].decode('utf-8')  # Decode as UTF-8 string
-    print("TESTING TX ID ", message[1].decode('utf-8'))
+    tx_id = message[1].decode('utf-8')
+
     message_content = message[2].decode('utf-8')  # Decode the message content as UTF-8
 
     message_data = json.loads(message_content)
-    tx_id = message_data["tx_id"]
     rx_id = message_data["rx_id"]
-    ip_address = message_data["ip_address"]
+    ip_address = message_content["ip_address"]
 
     print(f"Decoded tx_id: {tx_id}, IP: {ip_address}, Content: {message_content}")
 
