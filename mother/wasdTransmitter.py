@@ -14,16 +14,26 @@ steering = 0.15
 power_step = 5.00  # Amount to increase/decrease per step
 steering_step = 0.01  # Amount to increase/decrease per step
 
+def messagePrint(msg):
+    print(msg)
 
-zmq_inst = zmqHeader.ZMQ_CONNECTION(
+zmqObj = zmqHeader.ZMQ_CONNECTION(
     TX_ID="MOTHER",
     RX_ID="ROUTER",
     SERVER_IP="tcp://3.22.90.156:5555",
-    message_handler=None
+    message_handler=messagePrint
 )
 
-print(zmq_inst.connectZMQ()
+print(zmqObj.connectZMQ())
+
+zmqObj.sendMessage(
+    RX_ID="fake_worker_1",
+    msg_name="hey",
+    content='{"pleb":"sup"}'
 )
+
+zmqObj.startListenThread()
+
 # # Main loop
 # try:
 #     while True:

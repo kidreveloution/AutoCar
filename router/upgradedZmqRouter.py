@@ -30,7 +30,7 @@ while True:
         connections[tx_id] = ip_address
         content = b"YOU HAVE BEEN REGISTERED"
         router.send_multipart([tx_id.encode('utf-8'), content])  # Encode the response back to UTF-8
-        print(f"Registered worker: {tx_id} with IP: {ip_address}")
+        print(f"Registered connection: {tx_id} with IP: {ip_address}")
     else:
         if tx_id in connections:
             content = message_content.encode('utf-8')
