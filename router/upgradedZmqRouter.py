@@ -24,7 +24,7 @@ while True:
     print(f"Decoded tx_id: {tx_id}, IP: {ip_address}, Content: {message_content}")
 
     if message_data.get("msg_name") == "registeration":
-        # Register the worker with its decoded ID and IP address
+        # Register the worker with its decoded ID and IP addresscd 
         connections[tx_id] = ip_address
         content = b"YOU HAVE BEEN REGISTERED"
         router.send_multipart([tx_id.encode('utf-8'), content])  # Encode the response back to UTF-8
@@ -32,9 +32,9 @@ while True:
     else:
         if tx_id in connections:
             content = message_content.encode('utf-8')
-            router.send_multipart([tx_id.encode('utf-8'), content])  # Encode the response back to UTF-8
-            print(f"Sent message to reciever {tx_id}")
+            router.send_multipart([rx_id.encode('utf-8'), content])  # Encode the response back to UTF-8
+            print(f"Sent message to reciever {rx_id}")
         else:
-            print(f"Worker ID {tx_id} not recognized.")
+            print(f"RX ID {tx_id} not recognized.")
 
     print(f"Current connections: {connections}")
