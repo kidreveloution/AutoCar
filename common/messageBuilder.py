@@ -32,19 +32,4 @@ class MESSAGE_CLASS:
         }
         return json.dumps(message)
 
-# Example usage
-content_data = {
-    "subject": "Meeting Reminder",
-    "body": "Don't forget about the meeting at 3 PM.",
-    "attachments": ["agenda.pdf", "minutes.docx"]
-}
 
-msg_builder = MESSAGE_CLASS(
-    tx_id="123 Main St",
-    msg_name="Notification",
-    rx_id="john.doe@example.com",
-    content=content_data
-)
-
-json_message = msg_builder.buildMessage()
-print(json_message)

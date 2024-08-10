@@ -18,10 +18,10 @@ while True:
 
     message_content = message[2].decode('utf-8')  # Decode the message content as UTF-8
     message_data = json.loads(message_content)
-    
+
     rx_id = message_data["rx_id"]
 
-
+    print(message_data)
     if message_data.get("msg_name") == "registeration":
         # Register the worker with its decoded ID and IP addresscd 
         ip_address = message_data["content"]["ip_address"]
@@ -37,6 +37,6 @@ while True:
             router.send_multipart([rx_id.encode('utf-8'), content])  # Encode the response back to UTF-8
             print(f"Sent message to reciever {rx_id}")
         else:
-            print(f"RX ID {tx_id} not recognized.")
+            print(f"TX ID {tx_id} not recognized.")
 
     print(f"Current connections: {connections}")

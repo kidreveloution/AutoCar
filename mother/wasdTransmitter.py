@@ -5,29 +5,8 @@ import time
 import os
 import requests
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-import common.messageBuilder as messageBuilder
-
+import common.zmqHeader as zmqHeader
 # Set up ZMQ
-context = zmq.Context()
-dealer = context.socket(zmq.DEALER)
-dealer.connect("tcp://3.22.90.156:5555")
-CLIENT_ID = "mother"
-target_worker_id = "car_1"
-
-def get_public_ip():
-    response = requests.get('https://api.ipify.org')
-    return response.text
-
-initial_message = messageBuilder.MESSAGE_CLASS(
-    tx_id=CLIENT_ID,
-    msg_name="registeration",
-    rx_id="router",
-    content={"ip_address": get_public_ip()}
-).buildMessage()
-
-
-dealer.send_multipart([CLIENT_ID.encode('utf-8'), initial_message.encode('utf-8')])
 
 # Initial values
 power = 0.00
@@ -35,16 +14,15 @@ steering = 0.15
 power_step = 5.00  # Amount to increase/decrease per step
 steering_step = 0.01  # Amount to increase/decrease per step
 
-# Define a function to send messages
-def send_message(msg_name, value):
-    message = messageBuilder.MESSAGE_CLASS(
-        address=CLIENT_ID,
-        msg_name=msg_name,
-        dest=target_worker_id,
-        content=format(float(value), ".2f")
-    )
-    dealer.send_multipart([message.dest.encode('utf-8'), message.buildMessage().encode('utf-8')])
-    print(f"Sent {msg_name}: {value}")
+
+zmq_inst = zmqHeader.ZMQ_CONNECTION(
+    TX_ID="MOTHER",
+    RX_ID="ROUTER",
+    SERVER_IP="tcp://3.22.90.156:5555",
+    message_handler=None
+)
+
+print(zmq_inst.connectZMQ())
 
 # # Main loop
 # try:

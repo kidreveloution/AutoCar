@@ -46,7 +46,7 @@ initial_message = messageBuilder.MESSAGE_CLASS(
 ).buildMessage()
 
 
-dealer.send_multipart([PUBLIC_IP.encode('utf-8'), initial_message.encode('utf-8')])
+dealer.send_multipart([tx_id.encode('utf-8'), initial_message.encode('utf-8')])
 
 try:
     print("Trying")
