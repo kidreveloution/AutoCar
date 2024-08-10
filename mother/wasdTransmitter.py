@@ -12,7 +12,7 @@ import common.messageBuilder as messageBuilder
 context = zmq.Context()
 dealer = context.socket(zmq.DEALER)
 dealer.connect("tcp://3.22.90.156:5555")
-CLIENT_ID = "pc_1"
+CLIENT_ID = "mother"
 target_worker_id = "car_1"
 
 def get_public_ip():
@@ -20,10 +20,10 @@ def get_public_ip():
     return response.text
 
 initial_message = messageBuilder.MESSAGE_CLASS(
-    address=CLIENT_ID,
+    tx_id=CLIENT_ID,
     msg_name="registeration",
-    dest="router",
-    content={"ip_address": str(get_public_ip())}
+    rx_id="router",
+    content={"ip_address": get_public_ip()}
 ).buildMessage()
 
 
