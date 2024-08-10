@@ -22,8 +22,8 @@ zmq_inst = zmqHeader.ZMQ_CONNECTION(
     message_handler=None
 )
 
-print(zmq_inst.connectZMQ())
-
+print(zmq_inst.connectZMQ()
+)
 # # Main loop
 # try:
 #     while True:

@@ -22,7 +22,7 @@ while True:
     rx_id = message_data["rx_id"]
 
     print(message_data)
-    if message_data.get("msg_name") == "registeration":
+    if message_data["msg_name"] == "registeration":
         # Register the worker with its decoded ID and IP addresscd 
         ip_address = message_data["content"]["ip_address"]
 
