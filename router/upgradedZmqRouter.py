@@ -20,7 +20,7 @@ while True:
 
     message_data = json.loads(message_content)
     rx_id = message_data["rx_id"]
-    ip_address = message_data["content"][0]
+    ip_address = message_data["content"]["ip_address"]
 
     print(f"Decoded tx_id: {tx_id}, IP: {ip_address}, Content: {message_content}")
 
