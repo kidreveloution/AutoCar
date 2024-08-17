@@ -26,13 +26,8 @@ zmqObj = zmqHeader.ZMQ_CONNECTION(
 
 print(zmqObj.connectZMQ())
 
-zmqObj.sendMessage(
-    RX_ID="fake_worker_1",
-    msg_name="hey",
-    content='{"pleb":"sup"}'
-)
 
-zmqObj.startListenThread()
+#zmqObj.startListenThread()
 
 # Main loop
 RX_ID = "fake_worker_1"
