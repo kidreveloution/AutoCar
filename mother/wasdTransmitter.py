@@ -34,28 +34,37 @@ zmqObj.sendMessage(
 
 zmqObj.startListenThread()
 
-# # Main loop
+# Main loop
+RX_ID = "fake_worker_1"
+zmqObj.sendMessage(RX_ID=RX_ID,msg_name="steering",content=0.15)
 # try:
 #     while True:
 #         if keyboard.is_pressed('w'):
 #             power = min(100.00, power + power_step)  # Increase power, max 100
-#             send_message("power", power)
+#             zmqObj.sendMessage(RX_ID=RX_ID,msg_name="power",content=power)
+#             #zmqObj.sendMessage("power", power)
 #         elif keyboard.is_pressed('s'):
 #             power = max(-100.00, power - power_step)  # Decrease power, min -100
-#             send_message("power", power)
+#             zmqObj.sendMessage(RX_ID=RX_ID,msg_name="power",content=power)
+
+#             #zmqObj.sendMessage("power", power)
 #         else:
 #             power = 0.00  # Stop power when neither W nor S is pressed
-#             send_message("power", power)
+#             zmqObj.sendMessage(RX_ID=RX_ID,msg_name="power",content=power)
+
+#             #zmqObj.sendMessage("power", power)
 
 #         if keyboard.is_pressed('a'):
 #             steering = max(0.10, steering - steering_step)  # Decrease steering, min 0.10
-#             send_message("steering", steering)
+#             zmqObj.sendMessage(RX_ID=RX_ID,msg_name="steering",content=steering)
+
+#             #zmqObj.sendMessage("steering", steering)
 #         elif keyboard.is_pressed('d'):
 #             steering = min(0.20, steering + steering_step)  # Increase steering, max 0.20
-#             send_message("steering", steering)
+#             zmqObj.sendMessage(RX_ID=RX_ID,msg_name="steering",content=steering)
 #         else:
 #             steering = 0.15  # Reset steering to default when neither A nor D is pressed
-#             send_message("steering", steering)
+#             zmqObj.sendMessage(RX_ID=RX_ID,msg_name="steering",content=steering)
 
 #         time.sleep(0.1)  # Small delay to control the rate of change
 
