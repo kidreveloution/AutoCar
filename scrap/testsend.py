@@ -3,7 +3,7 @@ import sys
 import zmq
 import time
 sys.path.append('/Users/alyeldinshahin/Documents/GitHub/AutoCar')
-import messageBuilder
+import common.messageBuilder as messageBuilder
 
 context = zmq.Context()
 dealer = context.socket(zmq.DEALER)

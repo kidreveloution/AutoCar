@@ -5,7 +5,7 @@ import logging
 import requests
 import json
 import threading
-import common.messageBuilder as messageBuilder
+import messageBuilder as messageBuilder
 
 class ZMQ_CONNECTION:
     def __init__(self, TX_ID: str, RX_ID: str, SERVER_IP: str, message_handler=None) -> None:
@@ -46,7 +46,7 @@ class ZMQ_CONNECTION:
         try:
             initial_message = messageBuilder.MESSAGE_CLASS(
                 tx_id=self.TX_ID,
-                msg_name="registration",
+                msg_name="registeration",
                 rx_id=self.RX_ID,
                 content={"ip_address": self.get_public_ip()}
             ).buildMessage()
